@@ -26,6 +26,8 @@ app.use(express.json())
 
 app.use('/storage', express.static('./storage'))
 app.use('/api', router)
+app.use('/', res => res.json({"Say":"Hi"}))
+
 app.use(express.static(path.join(__dirname, './public')))
 
 const sync = async () => {
