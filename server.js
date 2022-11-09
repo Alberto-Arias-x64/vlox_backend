@@ -15,7 +15,7 @@ const app = express()
 const port = process.env.PORT || 3666
 
 const cors_options = {
-    origin: ['http://localhost:3000','https://backend-vlox.vercel.app']
+    origin: ['https://vlox-frontend.vercel.app','https://vlox-backend.vercel.app']
 }
 
 app.use(cors(cors_options))
@@ -24,10 +24,9 @@ app.use(morgan("tiny"))
 
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, './public')))
 app.use('/storage', express.static('./storage'))
 app.use('/api', router)
-app.get('*', (req, res, next) => res.sendFile(path.resolve(__dirname, './public/index.html')))
+app.use(express.static(path.join(__dirname, './public')))
 
 const sync = async () => {
     await sequelize.sync({ force: false, alter: true, logging: false })
