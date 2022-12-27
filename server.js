@@ -24,11 +24,12 @@ app.use(morgan("tiny"))
 
 app.use(express.json())
 
+app.use(express.static(path.join(__dirname, 'public')))
 app.use('/storage', express.static('./storage'))
 app.use('/api', router)
-app.use('/', res => res.json({"Say":"Hi"}))
 
-app.use(express.static(path.join(__dirname, './public')))
+app.use('/', (req,res) => res.sendFile(path.join(__dirname, 'public','vlox','index.html')))
+
 
 const sync = async () => {
     await sequelize.sync({ force: false, alter: true, logging: false })
