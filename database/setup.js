@@ -1,6 +1,12 @@
+import fs from "fs"
+import dotenv from "dotenv"
+import path from "path"
 import { Sequelize, DataTypes } from 'sequelize';
+dotenv.config()
 
-const sequelize = new Sequelize({
+const __dirname = path.resolve();
+
+/* const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database/database.sqlite',
     logging: false,
@@ -10,6 +16,19 @@ const sequelize = new Sequelize({
         acquire: 30000,
         idle: 10000
     }
+}) */
+
+const sequelize = new Sequelize({
+    dialect: 'mysql',
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    dialectOptions:{
+        ssl  : {
+            ca : fs.readFileSync(path.join(__dirname, '/database/cacert.pem'))
+        },
+    },
 })
 
 const post = sequelize.define('post', {
@@ -18,6 +37,7 @@ const post = sequelize.define('post', {
         defaultValue: DataTypes.UUIDV4,
         unique: true,
         primaryKey: true,
+        allowNull: false,
     },
     title: {
         type: DataTypes.STRING,
@@ -32,9 +52,9 @@ const post = sequelize.define('post', {
         allowNull: false
     },
     likes:{
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         defaultValue: 0
-    }
+    },
 }, {
     timestamps: true,
     createdAt: true,
@@ -47,6 +67,7 @@ const analytics = sequelize.define('analytics', {
         defaultValue: DataTypes.UUIDV4,
         unique: true,
         primaryKey: true,
+        allowNull: false
     },
     lastPost: {
         type: DataTypes.STRING,
@@ -55,7 +76,7 @@ const analytics = sequelize.define('analytics', {
     totalLikes: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
 }, {
     timestamps: false,
 })

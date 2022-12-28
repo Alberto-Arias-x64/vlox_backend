@@ -32,7 +32,7 @@ app.use('/', (req,res) => res.sendFile(path.join(__dirname, 'public','vlox','ind
 
 
 const sync = async () => {
-    await sequelize.sync({ force: false, alter: true, logging: false })
+    await sequelize.sync({ force: false, alter: false, logging: false })
     console.clear()
 }
 
