@@ -2,6 +2,7 @@ import fs from "fs"
 import dotenv from "dotenv"
 import path from "path"
 import { Sequelize, DataTypes } from 'sequelize';
+import * as dialect_module from 'mysql2'
 dotenv.config()
 
 const __dirname = path.resolve();
@@ -20,6 +21,7 @@ const __dirname = path.resolve();
 
 const sequelize = new Sequelize({
     dialect: 'mysql',
+    dialectModule: dialect_module, // <========= IMPORTING DIALECT 
     database: process.env.DB_DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
