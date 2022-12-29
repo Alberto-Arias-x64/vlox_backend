@@ -15,7 +15,7 @@ const app = express()
 const port = process.env.PORT || 3666
 
 const cors_options = {
-    origin: ['https://vlox-frontend.vercel.app','https://vlox-backend.vercel.app']
+    origin: []
 }
 
 app.use(cors(cors_options))
